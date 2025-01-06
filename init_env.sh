@@ -6,7 +6,7 @@ log() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
-PYTHON_VERSION=${1:-3.12.0}
+PYTHON_VERSION=${1:-3.12}
 
 if [ "$EUID" -ne 0 ]; then
     log "Please run as root"
