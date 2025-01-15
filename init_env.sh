@@ -13,7 +13,7 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-ACTUAL_USER=$(whoami | awk '{print $1}')
+ACTUAL_USER=$(whoami)
 if [ -z "$ACTUAL_USER" ]; then
     ACTUAL_USER="$SUDO_USER"
 fi
@@ -42,7 +42,7 @@ fi
 log "Configuring shell for pyenv ($SHELL_CONFIG)..."
 if ! grep -q "PYENV_ROOT" "$SHELL_CONFIG"; then
     su - $ACTUAL_USER -c "echo 'export PYENV_ROOT=\"\$HOME/.pyenv\"' >> $SHELL_CONFIG"
-    su - $ACTUAL_USER -c "echo 'command -v pyenv >/dev/null || export PATH=\"\$PYENV_ROOT/bin:\$PATH\"' >> $SHELL_CONFIG"
+    su - $ACTUAL_USER -c "echo 'export PATH=\"\$PYENV_ROOT/bin:\$PATH\"' >> $SHELL_CONFIG"
     su - $ACTUAL_USER -c "echo 'eval \"\$(pyenv init -)\"' >> $SHELL_CONFIG"
 fi
 
@@ -52,6 +52,14 @@ su - $ACTUAL_USER -c "export PYENV_ROOT=\"\$HOME/.pyenv\" && \
     eval \"\$(pyenv init -)\" && \
     pyenv install $PYTHON_VERSION --skip-existing && \
     pyenv virtualenv $PYTHON_VERSION jake-base"
+
+log "Installing required Python packages..."
+su - $ACTUAL_USER -c "export PYENV_ROOT=\"\$HOME/.pyenv\" && \
+    export PATH=\"\$PYENV_ROOT/bin:\$PATH\" && \
+    eval \"\$(pyenv init -)\" && \
+    pyenv activate jake-base && \
+    pip install --upgrade pip && \
+    pip install torch transformers datasets transformer-lens plotly kaleido ipykernel nbformat"
 
 log "Setup complete! To activate the virtualenv, use:"
 log "    pyenv activate jake-base"
