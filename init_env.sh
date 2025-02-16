@@ -59,7 +59,7 @@ su - $ACTUAL_USER -c "export PYENV_ROOT=\"\$HOME/.pyenv\" && \
     eval \"\$(pyenv init -)\" && \
     pyenv activate jake-base && \
     pip install --upgrade pip && \
-    pip install torch transformers datasets transformer-lens plotly kaleido ipykernel nbformat"
+    pip install torch transformers datasets transformer-lens sae-lens plotly kaleido ipykernel nbformat"
 
 log "Setup complete! To activate the virtualenv, use:"
 log "    pyenv activate jake-base"
