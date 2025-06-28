@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Update package list
-sudo apt update
+apt update
 
 # Install tmux and xclip (for clipboard support)
-sudo apt install -y tmux xclip
+apt install -y tmux xclip
 
 # Create minimal tmux config
 cat > ~/.tmux.conf << 'EOF'
