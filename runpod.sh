@@ -25,13 +25,13 @@ EOF
 echo "☁️  Installing rclone..."
 curl https://rclone.org/install.sh | bash
 
-if [ -f "/workspace/.config/rclone/rclone.conf" ]; then
-    mkdir -p ~/.config/rclone
-    cp /workspace/.config/rclone/rclone.conf ~/.config/rclone/
-    echo "✅ Rclone configured"
-else
-    echo "⚠️  No rclone config found. Run 'rclone config' to set up Google Drive"
-fi
+# if [ -f "/workspace/.config/rclone/rclone.conf" ]; then
+#     mkdir -p ~/.config/rclone
+#     cp /workspace/.config/rclone/rclone.conf ~/.config/rclone/
+#     echo "✅ Rclone configured"
+# else
+#     echo "⚠️  No rclone config found. Run 'rclone config' to set up Google Drive"
+# fi
 
 echo "📗 Setting up Node.js..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
@@ -45,13 +45,13 @@ nvm alias default 22
 echo "🤖 Installing Claude Code..."
 npm install -g @anthropic-ai/claude-code
 
-echo "🐍 Installing Python packages..."
-cd /workspace
-if [ -f "requirements.txt" ]; then
-    pip install -r requirements.txt
-else
-    echo "⚠️  No requirements.txt found in /workspace"
-fi
+# echo "🐍 Installing Python packages..."
+# cd /workspace
+# if [ -f "requirements.txt" ]; then
+#     pip install -r requirements.txt
+# else
+#     echo "⚠️  No requirements.txt found in /workspace"
+# fi
 
 mkdir -p /workspace/huggingface/{hub,datasets}
 
