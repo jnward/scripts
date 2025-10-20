@@ -43,13 +43,13 @@ npm install -g @openai/codex
 # else
 #     echo "⚠️  No requirements.txt found in /workspace"
 # fi
-mkdir -p /workspace/huggingface/{hub,datasets}
+mkdir -p /root/huggingface/{hub,datasets}
 cat >> ~/.bashrc << 'EOF'
 # HuggingFace cache
-export HF_HOME=/workspace/huggingface
-export HF_DATASETS_CACHE=/workspace/huggingface/datasets
-export HUGGINGFACE_HUB_CACHE=/workspace/huggingface/hub
-export TRANSFORMERS_CACHE=/workspace/huggingface/hub
+export HF_HOME=/root/huggingface
+export HF_DATASETS_CACHE=/root/huggingface/datasets
+export HUGGINGFACE_HUB_CACHE=/root/huggingface/hub
+export TRANSFORMERS_CACHE=/root/huggingface/hub
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
