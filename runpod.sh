@@ -3,6 +3,9 @@ echo "🚀 Starting RunPod environment setup..."
 echo "📦 Installing system packages..."
 apt-get update -qq
 apt-get install -y unzip tmux curl wget git
+echo "🔧 Configuring git..."
+git config --global user.email "jakenicholasward@gmail.com"
+git config --global user.name "Jake Ward"
 echo "🐍 Installing uv (Python package manager)..."
 curl -LsSf https://astral.sh/uv/install.sh | sh
 echo "🖥️  Configuring tmux..."
@@ -19,13 +22,6 @@ bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -selecti
 EOF
 echo "☁️  Installing rclone..."
 curl https://rclone.org/install.sh | bash
-# if [ -f "/workspace/.config/rclone/rclone.conf" ]; then
-#     mkdir -p ~/.config/rclone
-#     cp /workspace/.config/rclone/rclone.conf ~/.config/rclone/
-#     echo "✅ Rclone configured"
-# else
-#     echo "⚠️  No rclone config found. Run 'rclone config' to set up Google Drive"
-# fi
 echo "📗 Setting up Node.js..."
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 export NVM_DIR="$HOME/.nvm"
@@ -36,20 +32,16 @@ echo "🤖 Installing Claude Code..."
 npm install -g @anthropic-ai/claude-code
 echo "🤖 Installing Codex..."
 npm install -g @openai/codex
-# echo "🐍 Installing Python packages..."
-# cd /workspace
-# if [ -f "requirements.txt" ]; then
-#     pip install -r requirements.txt
-# else
-#     echo "⚠️  No requirements.txt found in /workspace"
-# fi
 mkdir -p /root/huggingface/{hub,datasets}
+mkdir -p /workspace/.claude
 cat >> ~/.bashrc << 'EOF'
 # HuggingFace cache
 export HF_HOME=/root/huggingface
 export HF_DATASETS_CACHE=/root/huggingface/datasets
 export HUGGINGFACE_HUB_CACHE=/root/huggingface/hub
 export TRANSFORMERS_CACHE=/root/huggingface/hub
+# Claude Code - persist sessions to network volume
+export CLAUDE_CONFIG_DIR=/workspace/.claude
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
