@@ -29,7 +29,7 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 22
 nvm alias default 22
 echo "🤖 Installing Claude Code..."
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://cli.anthropic.com/install.sh | sh
 echo "🤖 Installing Codex..."
 npm install -g @openai/codex
 mkdir -p /root/huggingface/{hub,datasets}
@@ -48,4 +48,20 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 nvm use default --silent 2>/dev/null
 EOF
-echo "✅ Done!"
+echo ""
+echo "  ┌───────────────────────────────────────────┐"
+echo "  │           ◆ RunPod Environment ◆          │"
+echo "  └───────────────────────────────────────────┘"
+echo ""
+echo "       ◇            OS:      $(. /etc/os-release && echo $PRETTY_NAME)"
+echo "      ◇◆◇           Kernel:  $(uname -r)"
+echo "     ◇◆◆◆◇          GPU:     $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'N/A')"
+echo "    ◇◆◇─◇◆◇         VRAM:    $(nvidia-smi --query-gpu=memory.total --format=csv,noheader 2>/dev/null || echo 'N/A')"
+echo "   ◇◆◆◆◇◆◆◆◇        Python:  $(python3 --version 2>/dev/null | cut -d' ' -f2)"
+echo "  ◇◆◇─◇◆◇─◇◆◇       CUDA:    $(nvcc --version 2>/dev/null | grep release | awk '{print $6}' | tr -d ',' || echo 'N/A')"
+echo "   ◇◆◆◆◇◆◆◆◇        Node:    $(node --version 2>/dev/null || echo 'N/A')"
+echo "    ◇◆◇─◇◆◇         Disk:    $(df -h /workspace 2>/dev/null | awk 'NR==2{print $3"/"$2" used"}' || echo 'N/A')"
+echo "     ◇◆◆◆◇"
+echo "      ◇◆◇           Tools: uv · claude-code · codex · rclone · tmux"
+echo "       ◇"
+echo ""
