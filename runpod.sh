@@ -29,7 +29,7 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 22
 nvm alias default 22
 echo "🤖 Installing Claude Code..."
-curl -fsSL https://cli.anthropic.com/install.sh | sh
+curl -fsSL https://claude.ai/install.sh | bash
 echo "🤖 Installing Codex..."
 npm install -g @openai/codex
 mkdir -p /root/huggingface/{hub,datasets}
@@ -42,6 +42,7 @@ export HUGGINGFACE_HUB_CACHE=/root/huggingface/hub
 export TRANSFORMERS_CACHE=/root/huggingface/hub
 # Claude Code - persist sessions to network volume
 export CLAUDE_CONFIG_DIR=/workspace/.claude
+export PATH="$HOME/.local/bin:$PATH"
 # NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -55,8 +56,8 @@ echo "  └───────────────────────
 echo ""
 echo "       ◇            OS:      $(. /etc/os-release && echo $PRETTY_NAME)"
 echo "      ◇◆◇           Kernel:  $(uname -r)"
-echo "     ◇◆◆◆◇          GPU:     $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null || echo 'N/A')"
-echo "    ◇◆◇─◇◆◇         VRAM:    $(nvidia-smi --query-gpu=memory.total --format=csv,noheader 2>/dev/null || echo 'N/A')"
+echo "     ◇◆◆◆◇          GPU:     $(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -1 || echo 'N/A') x$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | wc -l)"
+echo "    ◇◆◇─◇◆◇         VRAM:    $(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits 2>/dev/null | awk '{s+=$1} END {printf "%.0f MiB", s}' || echo 'N/A')"
 echo "   ◇◆◆◆◇◆◆◆◇        Python:  $(python3 --version 2>/dev/null | cut -d' ' -f2)"
 echo "  ◇◆◇─◇◆◇─◇◆◇       CUDA:    $(nvcc --version 2>/dev/null | grep release | awk '{print $6}' | tr -d ',' || echo 'N/A')"
 echo "   ◇◆◆◆◇◆◆◆◇        Node:    $(node --version 2>/dev/null || echo 'N/A')"
