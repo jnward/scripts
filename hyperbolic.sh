@@ -32,16 +32,16 @@ echo "🤖 Installing Claude Code..."
 curl -fsSL https://claude.ai/install.sh | bash
 echo "🤖 Installing Codex..."
 npm install -g @openai/codex
-mkdir -p /home/ubuntu/huggingface/{hub,datasets}
-mkdir -p /home/ubuntu/.claude
+mkdir -p "$HOME/huggingface/hub" "$HOME/huggingface/datasets"
+mkdir -p "$HOME/.claude"
 cat >> ~/.bashrc << 'EOF'
 # HuggingFace cache
-export HF_HOME=/home/ubuntu/huggingface
-export HF_DATASETS_CACHE=/home/ubuntu/huggingface/datasets
-export HUGGINGFACE_HUB_CACHE=/home/ubuntu/huggingface/hub
-export TRANSFORMERS_CACHE=/home/ubuntu/huggingface/hub
+export HF_HOME="$HOME/huggingface"
+export HF_DATASETS_CACHE="$HOME/huggingface/datasets"
+export HUGGINGFACE_HUB_CACHE="$HOME/huggingface/hub"
+export TRANSFORMERS_CACHE="$HOME/huggingface/hub"
 # Claude Code
-export CLAUDE_CONFIG_DIR=/home/ubuntu/.claude
+export CLAUDE_CONFIG_DIR="$HOME/.claude"
 export PATH="$HOME/.local/bin:$PATH"
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -61,7 +61,7 @@ echo "    ◇◆◇─◇◆◇         VRAM:    $(nvidia-smi --query-gpu=memory
 echo "   ◇◆◆◆◇◆◆◆◇        Python:  $(python3 --version 2>/dev/null | cut -d' ' -f2)"
 echo "  ◇◆◇─◇◆◇─◇◆◇       CUDA:    $(nvcc --version 2>/dev/null | grep release | awk '{print $6}' | tr -d ',' || echo 'N/A')"
 echo "   ◇◆◆◆◇◆◆◆◇        Node:    $(node --version 2>/dev/null || echo 'N/A')"
-echo "    ◇◆◇─◇◆◇         Disk:    $(df -h /home/ubuntu 2>/dev/null | awk 'NR==2{print $3"/"$2" used"}' || echo 'N/A')"
+echo "    ◇◆◇─◇◆◇         Disk:    $(df -h "$HOME" 2>/dev/null | awk 'NR==2{print $3"/"$2" used"}' || echo 'N/A')"
 echo "     ◇◆◆◆◇"
 echo "      ◇◆◇           Tools: uv · claude-code · codex · rclone · tmux"
 echo "       ◇"
