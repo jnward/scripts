@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#b00;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;font-family:'Courier New',monospace;color:#fff;text-shadow:0 0 30px rgba(0,0,0,.4)}
+h1{font-size:clamp(1.5rem,4vw,3rem);font-weight:900;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1rem;opacity:.85}
+.timer{font-size:clamp(2rem,10vw,7rem);font-weight:900;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.timer .hundredths{}
+.label{margin-top:1rem;font-size:clamp(1rem,2.5vw,1.8rem);letter-spacing:.3em;text-transform:uppercase;opacity:.6}
+.section{text-align:center}
+.section+.section{margin-top:3rem}
+.section+.section .timer{font-size:clamp(1.5rem,6vw,4rem)}
+</style>
+</head>
+<body>
+<h1>NeurIPS 2026</h1>
+<div class="section">
+<div class="timer" id="paper"></div>
+<div class="label">until paper deadline</div>
+</div>
+<div class="section">
+<div class="timer" id="abstract"></div>
+<div class="label">until abstract deadline</div>
+</div>
+<script>
+const p = n => String(n).padStart(2, '0');
+function fmt(diff) {
+  if (diff <= 0) return '00:00:00:00<span class="hundredths">.00</span>';
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const cs = Math.floor((diff % 1000) / 10);
+  return `${p(d)}:${p(h)}:${p(m)}:${p(s)}<span class="hundredths">.${p(cs)}</span>`;
+}
+const paperDL = new Date('2026-05-07T12:00:00Z').getTime();
+const abstractDL = new Date('2026-05-05T12:00:00Z').getTime();
+const paperEl = document.getElementById('paper');
+const abstractEl = document.getElementById('abstract');
+function tick() {
+  const now = Date.now();
+  paperEl.innerHTML = fmt(paperDL - now);
+  abstractEl.innerHTML = fmt(abstractDL - now);
+}
+setInterval(tick, 10);
+tick();
+</script>
+</body>
+</html>
